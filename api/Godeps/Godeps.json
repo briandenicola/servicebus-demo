@@ -1,0 +1,17 @@
+{
+	"ImportPath": "main",
+	"GoVersion": "go1.10",
+	"GodepVersion": "v80",
+	"Deps": [
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Comment": "v1.6.2-15-gd2b5d13",
+			"Rev": "d2b5d13b9260193b5a5649e9f47fda645bd2bd1d"
+		},
+		{
+			"ImportPath": "github.com/rs/cors",
+			"Comment": "v1.6.0-1-ga3460e4",
+			"Rev": "a3460e445dd310dbefee993fe449f2ff9c08ae71"
+		}
+	]
+}
