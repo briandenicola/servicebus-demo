@@ -73,9 +73,9 @@ queues=(ping pong)
 az servicebus namespace create -g ${RG} -n ${servicebusNameSpace} -l ${location} --sku Premium --capacity 1
 for queue in ${queues[*]}; 
 do 
-  az servciebus queue create -g ${RG} --name ${queue} --namespace-name ${servicebusNameSpace}
+  az servicebus queue create -g ${RG} --name ${queue} --namespace-name ${servicebusNameSpace}
 done
-sbConnectionString=`az servicebus namespace authorization-rule keys list -g ${RG} --namespace-name ${eventHubNameSpace} --name RootManageSharedAccessKey -o tsv --query primaryConnectionString`
+sbConnectionString=`az servicebus namespace authorization-rule keys list -g ${RG} --namespace-name ${servicebusNameSpace} --name RootManageSharedAccessKey -o tsv --query primaryConnectionString`
 
 #Create Azure Function
 if ! `az functionapp show --name $functionAppName --resource-group $RG -o none`
@@ -84,8 +84,8 @@ then
     az functionapp create --name $functionAppName --storage-account $funcStorageName --consumption-plan-location $location --resource-group $RG
     az functionapp identity assign --name $functionAppName --resource-group $RG
 fi
-az functionapp config appsettings set -g $RG -n $functionAppName --settings SERVICEBUS_CONSTR=$cosmosConnectionString
-az functionapp config appsettings set -g $RG -n $functionAppName --settings COSMOSDB_CONSTR=$sbConnectionString
+az functionapp config appsettings set -g $RG -n $functionAppName --settings SERVICEBUS_CONSTR=${sbConnectionString}
+az functionapp config appsettings set -g $RG -n $functionAppName --settings COSMOSDB_CONSTR=${cosmosConnectionString}
 
 # echo Application name
 echo ------------------------------------
