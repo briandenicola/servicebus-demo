@@ -81,13 +81,13 @@ sbConnectionString=`az servicebus namespace authorization-rule keys list -g ${RG
 if ! `az functionapp show --name $functionAppName --resource-group $RG -o none`
 then
     az storage account create --name $funcStorageName --location $location --resource-group $RG --sku Standard_LRS
-    az functionapp create --name $functionAppName --storage-account $funcStorageName --consumption-plan-location $location --resource-group $RG
+    az functionapp create --name $functionAppName --storage-account $funcStorageName --consumption-plan-location $location --resource-group $RG --functions-version 2
     az functionapp identity assign --name $functionAppName --resource-group $RG
 fi
 az functionapp config appsettings set -g $RG -n $functionAppName --settings SERVICEBUS_CONSTR=${sbConnectionString}
 az functionapp config appsettings set -g $RG -n $functionAppName --settings COSMOSDB_CONSTR=${cosmosConnectionString}
 
 # echo Application name
-echo ------------------------------------
+echo ------------------------------------clear
 echo "Infrastructure built successfully. Application Name: ${appName}"
 echo ------------------------------------
